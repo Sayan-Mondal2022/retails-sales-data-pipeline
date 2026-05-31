@@ -47,7 +47,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "raw_data",
+						"referenceName": "product_details_sheet",
 						"type": "DatasetReference"
 					}
 				],
@@ -109,7 +109,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "raw_data",
+						"referenceName": "retail_data1_sheet",
 						"type": "DatasetReference"
 					}
 				],
@@ -171,7 +171,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "raw_data",
+						"referenceName": "retail_data2_sheet",
 						"type": "DatasetReference"
 					}
 				],

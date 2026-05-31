@@ -1,0 +1,86 @@
+{
+	"name": "retail_data1_sheet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "retail_data1",
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "raw_data.xlsx",
+				"fileSystem": "landing-data"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "transaction_id",
+				"type": "String"
+			},
+			{
+				"name": "customer_id",
+				"type": "String"
+			},
+			{
+				"name": "customer_name",
+				"type": "String"
+			},
+			{
+				"name": "product_id",
+				"type": "String"
+			},
+			{
+				"name": "price",
+				"type": "String"
+			},
+			{
+				"name": "product_name",
+				"type": "String"
+			},
+			{
+				"name": "category",
+				"type": "String"
+			},
+			{
+				"name": "purchase_location",
+				"type": "String"
+			},
+			{
+				"name": "city",
+				"type": "String"
+			},
+			{
+				"name": "transaction_date",
+				"type": "String"
+			},
+			{
+				"name": "quantity",
+				"type": "String"
+			},
+			{
+				"name": "payment_method",
+				"type": "String"
+			},
+			{
+				"name": "discount",
+				"type": "String"
+			},
+			{
+				"name": "email",
+				"type": "String"
+			},
+			{
+				"name": "phone",
+				"type": "String"
+			},
+			{
+				"name": "payment_status",
+				"type": "String"
+			}
+		]
+	}
+}

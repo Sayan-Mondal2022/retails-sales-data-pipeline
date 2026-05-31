@@ -1,5 +1,5 @@
 {
-	"name": "raw_data",
+	"name": "product_details_sheet",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage1",
@@ -8,12 +8,12 @@
 		"annotations": [],
 		"type": "Excel",
 		"typeProperties": {
+			"sheetName": "product_details",
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": "raw_data.xlsx",
 				"fileSystem": "landing-data"
 			},
-			"sheetIndex": 1,
 			"firstRowAsHeader": true
 		},
 		"schema": [
