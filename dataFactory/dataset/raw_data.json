@@ -8,7 +8,7 @@
 		"annotations": [],
 		"type": "Excel",
 		"typeProperties": {
-			"sheetName": "retail_data2",
+			"sheetName": "product_details",
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": "raw_data.xlsx",
