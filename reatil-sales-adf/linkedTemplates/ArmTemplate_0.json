@@ -11,9 +11,21 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
 		},
+		"AzureDatabricks1_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'AzureDatabricks1'"
+		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://retailsalesresources.dfs.core.windows.net/"
+		},
+		"AzureDatabricks1_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "0531-081426-82jvk9yj"
+		},
+		"Databricks_Access_key_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://retail-sales-key-vault.vault.azure.net/"
 		}
 	},
 	"variables": {
@@ -34,6 +46,37 @@
 						"type": "SecureString",
 						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
 					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureDatabricks1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureDatabricks",
+				"typeProperties": {
+					"domain": "https://adb-7405618672526238.18.azuredatabricks.net",
+					"accessToken": {
+						"type": "SecureString",
+						"value": "[parameters('AzureDatabricks1_accessToken')]"
+					},
+					"existingClusterId": "[parameters('AzureDatabricks1_properties_typeProperties_existingClusterId')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Databricks_Access_key')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('Databricks_Access_key_properties_typeProperties_baseUrl')]"
 				}
 			},
 			"dependsOn": []
@@ -78,7 +121,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/raw_data')]",
+			"name": "[concat(parameters('factoryName'), '/product_details_sheet')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -89,7 +132,7 @@
 				"annotations": [],
 				"type": "Excel",
 				"typeProperties": {
-					"sheetName": "retail_data2",
+					"sheetName": "product_details",
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "raw_data.xlsx",
@@ -167,6 +210,97 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/retail_data1_sheet')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "retail_data1",
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "raw_data.xlsx",
+						"fileSystem": "landing-data"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"name": "transaction_id",
+						"type": "String"
+					},
+					{
+						"name": "customer_id",
+						"type": "String"
+					},
+					{
+						"name": "customer_name",
+						"type": "String"
+					},
+					{
+						"name": "product_id",
+						"type": "String"
+					},
+					{
+						"name": "price",
+						"type": "String"
+					},
+					{
+						"name": "product_name",
+						"type": "String"
+					},
+					{
+						"name": "category",
+						"type": "String"
+					},
+					{
+						"name": "purchase_location",
+						"type": "String"
+					},
+					{
+						"name": "city",
+						"type": "String"
+					},
+					{
+						"name": "transaction_date",
+						"type": "String"
+					},
+					{
+						"name": "quantity",
+						"type": "String"
+					},
+					{
+						"name": "payment_method",
+						"type": "String"
+					},
+					{
+						"name": "discount",
+						"type": "String"
+					},
+					{
+						"name": "email",
+						"type": "String"
+					},
+					{
+						"name": "phone",
+						"type": "String"
+					},
+					{
+						"name": "payment_status",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/retail_data2')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -188,6 +322,97 @@
 					"escapeChar": "\\",
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "transaction_id",
+						"type": "String"
+					},
+					{
+						"name": "customer_id",
+						"type": "String"
+					},
+					{
+						"name": "customer_name",
+						"type": "String"
+					},
+					{
+						"name": "product_id",
+						"type": "String"
+					},
+					{
+						"name": "price",
+						"type": "String"
+					},
+					{
+						"name": "product_name",
+						"type": "String"
+					},
+					{
+						"name": "category",
+						"type": "String"
+					},
+					{
+						"name": "purchase_location",
+						"type": "String"
+					},
+					{
+						"name": "city",
+						"type": "String"
+					},
+					{
+						"name": "transaction_date",
+						"type": "String"
+					},
+					{
+						"name": "quantity",
+						"type": "String"
+					},
+					{
+						"name": "payment_method",
+						"type": "String"
+					},
+					{
+						"name": "discount",
+						"type": "String"
+					},
+					{
+						"name": "email",
+						"type": "String"
+					},
+					{
+						"name": "phone",
+						"type": "String"
+					},
+					{
+						"name": "payment_status",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/retail_data2_sheet')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "retail_data2",
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "raw_data.xlsx",
+						"fileSystem": "landing-data"
+					},
+					"firstRowAsHeader": true
 				},
 				"schema": [
 					{
@@ -311,7 +536,7 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "raw_data",
+								"referenceName": "product_details_sheet",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -375,7 +600,7 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "raw_data",
+								"referenceName": "retail_data1_sheet",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -389,7 +614,7 @@
 						]
 					},
 					{
-						"name": "Load Reatil Data2",
+						"name": "Load Retail Data2",
 						"type": "Copy",
 						"dependsOn": [
 							{
@@ -439,7 +664,7 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "raw_data",
+								"referenceName": "retail_data2_sheet",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -453,11 +678,11 @@
 						]
 					},
 					{
-						"name": "Success",
+						"name": "Copy phase completed",
 						"type": "WebActivity",
 						"dependsOn": [
 							{
-								"activity": "Load Reatil Data2",
+								"activity": "Load Retail Data2",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -476,17 +701,17 @@
 							"headers": {},
 							"url": "https://prod-40.southeastasia.logic.azure.com:443/workflows/74698b24edf5465c9405af57a8582141/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=s2iTeTcpWLvuhzp7VRit9M3pjiwLllsOE1sQzs1W3k4",
 							"body": {
-								"value": "{\n    \"pipelineName\" : \"@{pipeline().Pipeline}\",\n    \"status\" : \"SUCCEEDED\",\n    \"runId\" : \"@{pipeline().RunId}\",\n    \"time\" : \"@{utcNow()}\"\n}",
+								"value": "{\n    \"pipelineName\" : \"@{pipeline().Pipeline}\",\n    \"status\" : \"Copy Phase is SUCCEEDED\",\n    \"runId\" : \"@{pipeline().RunId}\",\n    \"time\" : \"@{utcNow()}\"\n}",
 								"type": "Expression"
 							}
 						}
 					},
 					{
-						"name": "Failed",
+						"name": "Copy phase failed",
 						"type": "WebActivity",
 						"dependsOn": [
 							{
-								"activity": "Load Reatil Data2",
+								"activity": "Load Retail Data2",
 								"dependencyConditions": [
 									"Failed"
 								]
@@ -505,7 +730,93 @@
 							"headers": {},
 							"url": "https://prod-40.southeastasia.logic.azure.com:443/workflows/74698b24edf5465c9405af57a8582141/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=s2iTeTcpWLvuhzp7VRit9M3pjiwLllsOE1sQzs1W3k4",
 							"body": {
-								"value": "{\n    \"pipelineName\" : \"@{pipeline().Pipeline}\",\n    \"status\" : \"FAILED\",\n    \"runId\" : \"@{pipeline().RunId}\",\n    \"time\" : \"@{utcNow()}\"\n}",
+								"value": "{\n    \"pipelineName\" : \"@{pipeline().Pipeline}\",\n    \"status\" : \"Copy phase has FAILED\",\n    \"runId\" : \"@{pipeline().RunId}\",\n    \"time\" : \"@{utcNow()}\"\n}",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Data Transformation Pipeline",
+						"description": "This will take raw-data and transform it for business insights.",
+						"type": "DatabricksNotebook",
+						"dependsOn": [
+							{
+								"activity": "Load Retail Data2",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/retail-sales-data-pipeline/Data Transformation Pipeline"
+						},
+						"linkedServiceName": {
+							"referenceName": "AzureDatabricks1",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "Success Data Transformation",
+						"type": "WebActivity",
+						"dependsOn": [
+							{
+								"activity": "Data Transformation Pipeline",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"method": "POST",
+							"headers": {},
+							"url": "https://prod-40.southeastasia.logic.azure.com:443/workflows/74698b24edf5465c9405af57a8582141/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=s2iTeTcpWLvuhzp7VRit9M3pjiwLllsOE1sQzs1W3k4",
+							"body": {
+								"value": "{\n    \"pipelineName\" : \"@{pipeline().Pipeline}\",\n    \"status\" : \"Data Transformation phase is SUCCEEDED\",\n    \"runId\" : \"@{pipeline().RunId}\",\n    \"time\" : \"@{utcNow()}\"\n}",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Failed Data Transformation",
+						"type": "WebActivity",
+						"dependsOn": [
+							{
+								"activity": "Data Transformation Pipeline",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"method": "POST",
+							"headers": {},
+							"url": "https://prod-40.southeastasia.logic.azure.com:443/workflows/74698b24edf5465c9405af57a8582141/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=s2iTeTcpWLvuhzp7VRit9M3pjiwLllsOE1sQzs1W3k4",
+							"body": {
+								"value": "{\n    \"pipelineName\" : \"@{pipeline().Pipeline}\",\n    \"status\" : \"Data Transformation has FAILED\",\n    \"runId\" : \"@{pipeline().RunId}\",\n    \"time\" : \"@{utcNow()}\"\n}",
 								"type": "Expression"
 							}
 						}
@@ -517,10 +828,13 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/raw_data')]",
+				"[concat(variables('factoryId'), '/datasets/product_details_sheet')]",
 				"[concat(variables('factoryId'), '/datasets/Product_details')]",
+				"[concat(variables('factoryId'), '/datasets/retail_data1_sheet')]",
 				"[concat(variables('factoryId'), '/datasets/retail_data1')]",
-				"[concat(variables('factoryId'), '/datasets/retail_data2')]"
+				"[concat(variables('factoryId'), '/datasets/retail_data2_sheet')]",
+				"[concat(variables('factoryId'), '/datasets/retail_data2')]",
+				"[concat(variables('factoryId'), '/linkedServices/AzureDatabricks1')]"
 			]
 		},
 		{

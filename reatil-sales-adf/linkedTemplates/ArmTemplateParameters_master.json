@@ -8,8 +8,17 @@
 		"AzureDataLakeStorage1_accountKey": {
 			"value": ""
 		},
+		"AzureDatabricks1_accessToken": {
+			"value": ""
+		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"value": "https://retailsalesresources.dfs.core.windows.net/"
+		},
+		"AzureDatabricks1_properties_typeProperties_existingClusterId": {
+			"value": "0531-081426-82jvk9yj"
+		},
+		"Databricks_Access_key_properties_typeProperties_baseUrl": {
+			"value": "https://retail-sales-key-vault.vault.azure.net/"
 		},
 		"containerUri": {
 			"value": ""
