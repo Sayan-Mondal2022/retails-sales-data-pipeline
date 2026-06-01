@@ -1,0 +1,10 @@
+{
+	"name": "Databricks_Access_key",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://retail-sales-key-vault.vault.azure.net/"
+		}
+	}
+}
