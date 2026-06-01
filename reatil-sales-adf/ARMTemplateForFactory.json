@@ -33,7 +33,7 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/sourceToRaw')]",
+			"name": "[concat(parameters('factoryName'), '/Data Pipeline')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -837,7 +837,7 @@
 				"pipelines": [
 					{
 						"pipelineReference": {
-							"referenceName": "sourceToRaw",
+							"referenceName": "Data Pipeline",
 							"type": "PipelineReference"
 						},
 						"parameters": {}
@@ -854,7 +854,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/sourceToRaw')]"
+				"[concat(variables('factoryId'), '/pipelines/Data Pipeline')]"
 			]
 		},
 		{
