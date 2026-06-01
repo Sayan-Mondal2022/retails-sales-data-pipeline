@@ -1,5 +1,5 @@
 {
-	"name": "sourceToRaw",
+	"name": "Data Pipeline",
 	"properties": {
 		"description": "This will take the raw data from source to the Raw storage",
 		"activities": [

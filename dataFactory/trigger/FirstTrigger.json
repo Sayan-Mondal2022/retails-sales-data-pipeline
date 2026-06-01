@@ -6,7 +6,7 @@
 		"pipelines": [
 			{
 				"pipelineReference": {
-					"referenceName": "sourceToRaw",
+					"referenceName": "Data Pipeline",
 					"type": "PipelineReference"
 				}
 			}
