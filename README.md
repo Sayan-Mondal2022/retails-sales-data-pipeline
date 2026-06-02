@@ -10,7 +10,6 @@
 
 An end-to-end cloud data engineering and business intelligence solution designed to ingest, process, validate, clean, secure, and visualize retail sales data. This project showcases a robust, production-grade cloud architecture for processing raw multi-source transactional data into clean, business-ready datasets structured in a Star Schema and visualizing key business performance indicators.
 
----
 
 ## Project Objective
 
@@ -31,19 +30,17 @@ This solution was built to establish a secure, automated, and scalable cloud dat
 ### Expected Business Outcome
 The final outcome is a single source of truth for business reporting. It enables corporate stakeholders to monitor accurate financial KPIs (Revenue, Average Order Value, Orders) and analyze sales trends across products, categories, time, and geographies through an interactive Power BI dashboard.
 
----
 
 ## Solution Overview
 
 The project implements a modern cloud data lakehouse pattern split into progressive zones:
 1. **Landing Zone:** External file intake area storing raw Excel data sheets.
 2. **Raw Zone:** Standardized CSV ingestion layer.
-3. **Transformation Zone:** Cleaned, masked, and structured dimensional datasets (Parquet/CSV formats).
+3. **Transformation Zone:** Cleaned, masked, and structured dimensional datasets (CSV formats).
 4. **Reporting Zone:** Semantic Star Schema model consumed by business intelligence dashboards.
 
 The orchestration of ingestion is handled by **Azure Data Factory (ADF)**, while distributed processing, validation, and transformations are executed using **PySpark** inside **Azure Databricks**. Pipeline status events are routed through **Azure Monitor** and triggers **Azure Logic Apps** for email alerting.
 
----
 
 ## System Architecture
 
@@ -75,7 +72,6 @@ The architecture flow maps the pipeline from ingestion to final reporting:
 * **BI Platform:** Power BI.
 * **Model:** Imports the transformed CSV directories, builds a Star Schema relationship model, defines DAX measurements, and serves interactive dashboards to business users.
 
----
 
 ## Technology Stack
 
@@ -90,7 +86,6 @@ The architecture flow maps the pipeline from ingestion to final reporting:
 * **Power BI:** Data visualization platform used to model relationships, build calculations, and report KPIs.
 * **GitHub:** Version control platform.
 
----
 
 ## Project Workflow
 
@@ -121,7 +116,6 @@ graph TD
 7. **Dashboard Development:** Power BI imports the dimensional tables, maps relationships, defines measures, and constructs the report sheets.
 8. **Monitoring and Notifications:** Azure Monitor logs run identifiers. The ADF pipeline initiates a Logic App HTTP trigger POST request on success or failure, dispatching status emails to the engineering team.
 
----
 
 ## Dataset Overview
 
@@ -134,7 +128,7 @@ The ingestion pipeline processes a multi-sheet Excel file `raw_data.xlsx` consis
 ### Schema Profiles
 | Dataset / Sheet | Primary Fields | Record Count | Quality Issues Found |
 | :--- | :--- | :--- | :--- |
-| **Product Details** | `product_id`, `product_name`, `category`, `price` | ~1,000 | Complete, clean reference list. |
+| **Product Details** | `product_id`, `product_name`, `category`, `price` | 10 | Complete, clean reference list. |
 | **Retail Data 1** | `transaction_id`, `customer_id`, `customer_name`, `product_id`, `price`, `product_name`, `category`, `purchase_location`, `city`, `transaction_date`, `quantity`, `payment_method`, `discount`, `email`, `phone`, `payment_status` | 4,243 | Missing prices, redundant product strings, unstandardized dates, exposed email/phone PII, negative quantities. |
 | **Retail Data 2** | Same structure as Retail Data 1 | 4,251 | Similar issues as Retail Data 1, missing prices, exposed PII, negative quantities. |
 
@@ -147,7 +141,7 @@ Transformations output three distinct physical tables written in CSV format unde
 3. **`fact_sales` (Sales Fact Table):** Normalized sales transactions storing business keys and metrics.
    * *Columns:* `transaction_id`, `customer_id`, `product_id`, `quantity`, `valid_quantity`, `city`, `transaction_date`, `purchase_mode`, `payment_method`, `discount`, `valid_discount`, `payment_status`
 
----
+
 
 ## Data Quality Checks
 
@@ -175,7 +169,7 @@ Specific data quality scripts were developed within Databricks to clean raw data
 * **Quantity Validation:** Quantity values were verified. Records containing quantities < 0 were not dropped (to preserve operational history), but flagged as "Invalid" under a new column `valid_quantity`. Valid transactions (quantities >= 0) are flagged as "Valid".
 * **Discount Validation:** Discount values were checked. Values >= 0 are flagged as "Valid", while values < 0 are flagged as "Invalid" under `valid_discount`.
 
----
+
 
 ## Data Transformation Decisions
 
@@ -191,7 +185,6 @@ To enforce data warehousing standards and performance efficiency, the following 
 * **Auditability over Deletion:** Instead of deleting transactions containing invalid metrics (such as negative quantities or discounts), the pipeline appends validation flags (`valid_quantity` and `valid_discount`). This preserves data integrity for compliance and returns raw audit capability to analytical users.
 * **Text Standardization:** Capitalized string values (e.g., converting mixed-case `payment_status` using the Spark `initcap` function to values like "Successful" and "Failed") to establish clean, predictable categorization for reporting.
 
----
 
 ## Data Model
 
@@ -234,7 +227,6 @@ The transformed tables are loaded into Power BI and modeled using a **Star Schem
 
 This layout simplifies filters, minimizes joins, and ensures that aggregations run efficiently under Power BI's VertiPaq engine.
 
----
 
 ## Project Structure
 
@@ -279,7 +271,6 @@ retails-sales-data-pipeline/
 └── README.md                             # Comprehensive project documentation
 ```
 
----
 
 ## Future Enhancements
 
@@ -289,7 +280,6 @@ retails-sales-data-pipeline/
 * **Automated Data Quality Testing:** Integrate PyTest scripts into code execution stages to validate Spark transformation outputs automatically.
 * **Log Analytics Integration:** Forward diagnostics from Azure Monitor into a Log Analytics Workspace to build operational monitoring dashboards for run status trends.
 
----
 
 ## Acknowledgement
 
@@ -299,13 +289,10 @@ This end-to-end cloud pipeline served as a practical learning journey in data en
 * Profiling datasets, creating schemas, cleaning data anomalies, and applying cryptographic PII hashing.
 * Implementing Star Schema data models and visualizing business KPIs within Power BI.
 
----
+
 
 ## Thank You Note
 
 Thank you for visiting my project repository! If you are a recruiter, hiring manager, or fellow data engineer, I hope this project demonstrates my technical capability and structured approach to building production-grade data pipelines. 
 
 Feel free to open an issue or reach out directly if you have any questions or feedback. I am always open to discussing data architectures and engineering best practices!
-
-* Sayan Mondal ([CMRIT](https://www.cmrit.ac.in/), Bangalore)
-* Date: 02/06/2026
