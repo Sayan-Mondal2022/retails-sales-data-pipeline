@@ -2,8 +2,15 @@
 	"name": "FirstTrigger",
 	"properties": {
 		"annotations": [],
-		"runtimeState": "Started",
-		"pipelines": [],
+		"runtimeState": "Stopped",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "Data Pipeline",
+					"type": "PipelineReference"
+				}
+			}
+		],
 		"type": "ScheduleTrigger",
 		"typeProperties": {
 			"recurrence": {
